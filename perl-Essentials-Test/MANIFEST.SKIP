@@ -1,0 +1,6 @@
+^local/
+^cpanfile(\.snapshot)?$
+^dist\.ini$
+^MANIFEST\.SKIP$
+\.tar\.gz$
+\.xml$
