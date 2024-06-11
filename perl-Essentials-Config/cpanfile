@@ -1,0 +1,32 @@
+# https://metacpan.org/pod/distribution/Module-CPANfile/lib/cpanfile.pod
+
+requires 'perl', 'v5.26';
+requires 'Config::General', '2.67';
+requires 'Config::Tiny', '2.30';
+requires 'Data::Structure::Util', '0.16';
+requires 'Essentials::Exception', '0.1.0';
+requires 'File::MimeInfo', '0.36';
+requires 'File::Slurper', '0.014';
+requires 'JSON::XS', '4.04';
+requires 'Module::Find', '0.17';
+requires 'Moo', '2.005005';
+requires 'Moo::Role', '2.005005';
+requires 'strictures', '2.000006';
+requires 'Tie::IxHash', '1.23';
+requires 'Try::Tiny', '0.32';
+requires 'XML::Simple', '2.25';
+requires 'YAML::PP', '0.39.0';
+
+on build => sub {
+    requires 'Dist::Zilla', '6.037';
+    requires 'Dist::Zilla::PluginBundle::OYOULE', '2.1.1';
+};
+
+on test => sub {
+    requires 'Essentials::Test::Critic', '0.1.0';
+    requires 'Safe::Isa', '1.000010';
+    requires 'Test::Exception', '0.43';
+    requires 'Test::More', '1.302219';
+    requires 'Tie::IxHash', '1.23';
+    requires 'utf8::all', '0.026';
+};
