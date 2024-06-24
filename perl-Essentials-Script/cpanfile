@@ -1,0 +1,25 @@
+# https://metacpan.org/pod/distribution/Module-CPANfile/lib/cpanfile.pod
+
+requires 'perl', 'v5.26';
+requires 'Essentials::Exception', '0.1.0';
+requires 'Essentials::Log::Level', '0.1.0';
+requires 'Moo', '2.005005';
+requires 'Moo::Role', '2.005005';
+requires 'strictures', '2.000006';
+requires 'Systemd::Daemon', '0.07';
+requires 'Try::Tiny', '0.32';
+
+on build => sub {
+    requires 'Dist::Zilla', '6.037';
+    requires 'Dist::Zilla::PluginBundle::OYOULE', '2.1.1';
+};
+
+on test => sub {
+    requires 'DateTime', '1.66';
+    requires 'Essentials::Test::Critic', '0.1.0';
+    requires 'Safe::Isa', '1.000010';
+    requires 'Test::MockFile', '0.039';
+    requires 'Test::MockModule', '0.180.0';
+    requires 'Test::MockTime', '0.17';
+    requires 'Test::More', '1.302219';
+};
