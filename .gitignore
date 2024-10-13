@@ -1,0 +1,7 @@
+junit_output.xml
+*.tar.gz
+*.swp
+**/cover_db
+**/local
+**/.build
+**/Essentials-*
