@@ -1655,21 +1655,16 @@ DISTRIBUTIONS
       Encode::Alias 0
       ExtUtils::MakeMaker 0
       perl 5.008
-  Essentials-Exception-0.1.0
-    pathname: O/OY/OYOULE/Essentials-Exception-0.1.0.tar.gz
+  Essentials-Exception-0.1.1
+    pathname: O/OY/OYOULE/Essentials-Exception-0.1.1.tar.gz
     provides:
-      Essentials::Exception v0.1.0
+      Essentials::Exception v0.1.1
     requirements:
-      Carp 0
-      Dist::Zilla == 6.037
-      Dist::Zilla::PluginBundle::OYOULE == v2.1.1
-      Exporter 0
       ExtUtils::MakeMaker 7.78
-      Moo == 2.005005
-      Throwable == 1.001
-      overload 0
+      Moo 2.005005
+      Throwable 1.001
       perl 5.026000
-      strictures == 2.000006
+      strictures 2.000006
   Essentials-Log-0.1.0
     pathname: O/OY/OYOULE/Essentials-Log-0.1.0.tar.gz
     provides:
@@ -1695,47 +1690,40 @@ DISTRIBUTIONS
       perl 5.026000
       strictures == 2.000006
       utf8::all == 0.026
-  Essentials-Script-0.1.0
-    pathname: O/OY/OYOULE/Essentials-Script-0.1.0.tar.gz
+  Essentials-Script-0.1.1
+    pathname: O/OY/OYOULE/Essentials-Script-0.1.1.tar.gz
     provides:
-      Essentials::Script v0.1.0
-      Essentials::Script::Heartbeat v0.1.0
-      Essentials::Script::Heartbeat::Attribute v0.1.0
-      Essentials::Script::Heartbeat::None v0.1.0
-      Essentials::Script::Heartbeat::StampFile v0.1.0
-      Essentials::Script::Heartbeat::Systemd v0.1.0
-      Essentials::Script::Service v0.1.0
+      Essentials::Script v0.1.1
+      Essentials::Script::Heartbeat v0.1.1
+      Essentials::Script::Heartbeat::Attribute v0.1.1
+      Essentials::Script::Heartbeat::None v0.1.1
+      Essentials::Script::Heartbeat::StampFile v0.1.1
+      Essentials::Script::Heartbeat::Systemd v0.1.1
+      Essentials::Script::Service v0.1.1
     requirements:
-      Dist::Zilla == 6.037
-      Dist::Zilla::PluginBundle::OYOULE == v2.1.1
-      Essentials::Exception == v0.1.0
-      Essentials::Log::Level == v0.1.0
+      Essentials::Exception v0.1.0
+      Essentials::Log::Level v0.1.0
       ExtUtils::MakeMaker 7.78
-      File::Spec 0
-      Getopt::Long 0
-      Moo == 2.005005
-      Moo::Role == 2.005005
-      Pod::Usage 0
-      Systemd::Daemon == 0.07
-      Try::Tiny == 0.32
+      Moo 2.005005
+      Moo::Role 2.005005
+      Systemd::Daemon 0.07
+      Try::Tiny 0.32
       perl 5.026000
-      strictures == 2.000006
-  Essentials-Test-0.1.0
-    pathname: O/OY/OYOULE/Essentials-Test-0.1.0.tar.gz
+      strictures 2.000006
+  Essentials-Test-0.1.1
+    pathname: O/OY/OYOULE/Essentials-Test-0.1.1.tar.gz
     provides:
-      Essentials::Test v0.1.0
-      Essentials::Test::Critic v0.1.0
+      Essentials::Test v0.1.1
+      Essentials::Test::Critic v0.1.1
     requirements:
-      Dist::Zilla == 6.037
-      Dist::Zilla::PluginBundle::OYOULE == v2.1.1
       ExtUtils::MakeMaker 7.78
-      File::ShareDir == 1.118
+      File::ShareDir 1.118
       File::ShareDir::Install 0.06
-      Moo == 2.005005
-      Test::Perl::Critic == 1.04
-      Try::Tiny == 0.32
+      Moo 2.005005
+      Test::Perl::Critic 1.04
+      Try::Tiny 0.32
       perl 5.026000
-      strictures == 2.000006
+      strictures 2.000006
   Eval-Closure-0.14
     pathname: D/DO/DOY/Eval-Closure-0.14.tar.gz
     provides:
@@ -4694,10 +4682,10 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       perl 5.012
       warnings 0
-  Test-MockModule-v0.180.0
-    pathname: G/GF/GFRANKS/Test-MockModule-v0.180.0.tar.gz
+  Test-MockModule-v0.185.3
+    pathname: G/GF/GFRANKS/Test-MockModule-v0.185.3.tar.gz
     provides:
-      Test::MockModule v0.180.0
+      Test::MockModule v0.185.3
     requirements:
       Carp 0
       Module::Build 0.4234
