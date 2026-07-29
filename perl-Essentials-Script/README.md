@@ -4,7 +4,7 @@ Essentials::Script - A Moo role for wrapping scripts as modules
 
 # VERSION
 
-version 0.1.0
+version 0.1.1
 
 # SYNOPSIS
 
