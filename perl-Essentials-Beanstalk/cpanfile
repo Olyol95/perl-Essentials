@@ -10,7 +10,7 @@ requires 'Moo::Role', '2.005005';
 requires 'strictures', '2.000006';
 requires 'Try::Tiny', '0.32';
 
-on build => sub {
+on develop => sub {
     requires 'Dist::Zilla', '6.037';
     requires 'Dist::Zilla::PluginBundle::OYOULE', '2.1.1';
 };
