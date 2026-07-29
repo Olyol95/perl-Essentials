@@ -4,7 +4,7 @@ Essentials::DB - Modules for managing multiple DBIx::Class schemas under custom 
 
 # VERSION
 
-version 0.1.0
+version 0.1.1
 
 # SYNOPSIS
 
