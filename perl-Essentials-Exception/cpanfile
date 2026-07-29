@@ -5,7 +5,7 @@ requires 'Moo', '2.005005';
 requires 'strictures', '2.000006';
 requires 'Throwable', '1.001';
 
-on build => sub {
+on develop => sub {
     requires 'Dist::Zilla', '6.037';
     requires 'Dist::Zilla::PluginBundle::OYOULE', '2.1.1';
 };
