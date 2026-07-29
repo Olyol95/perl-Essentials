@@ -4,7 +4,7 @@ Essentials::Exception - A throwable exception object with a stack trace.
 
 # VERSION
 
-version 0.1.0
+version 0.1.1
 
 # SYNOPSIS
 
