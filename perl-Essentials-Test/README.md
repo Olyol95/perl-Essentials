@@ -4,7 +4,7 @@ Essentials::Test - Test libraries and linting config.
 
 # VERSION
 
-version 0.1.0
+version 0.1.1
 
 # INCLUDED MODULES
 
