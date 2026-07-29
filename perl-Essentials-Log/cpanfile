@@ -9,7 +9,7 @@ requires 'Safe::Isa', '1.000010';
 requires 'strictures', '2.000006';
 requires 'utf8::all', '0.026';
 
-on build => sub {
+on develop => sub {
     requires 'Dist::Zilla', '6.037';
     requires 'Dist::Zilla::PluginBundle::OYOULE', '2.1.1';
 };
