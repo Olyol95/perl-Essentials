@@ -9,7 +9,7 @@ requires 'strictures', '2.000006';
 requires 'Try::Tiny', '0.32';
 requires 'Types::Standard', '2.008003';
 
-on build => sub {
+on develop => sub {
     requires 'Dist::Zilla', '6.037';
     requires 'Dist::Zilla::PluginBundle::OYOULE', '2.1.1';
 };
