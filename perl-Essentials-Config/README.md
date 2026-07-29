@@ -4,7 +4,7 @@ Essentials::Config - A library for managing config files in various common forma
 
 # VERSION
 
-version 0.1.0
+version 0.1.1
 
 # SYNOPSIS
 
