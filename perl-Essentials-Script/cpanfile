@@ -2,7 +2,7 @@
 
 requires 'perl', 'v5.26';
 requires 'Essentials::Exception', '0.1.0';
-requires 'Essentials::Log::Level', '0.1.0';
+requires 'Essentials::Log', '0.1.2';
 requires 'Moo', '2.005005';
 requires 'Moo::Role', '2.005005';
 requires 'strictures', '2.000006';

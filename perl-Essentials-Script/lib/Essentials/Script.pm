@@ -205,7 +205,8 @@ sub new_with_opts {
     return $package->new(
         %args,
         log => Essentials::Log->new(
-            level => $level ? from_string($level) : $WARN,
+            level          => $level ? from_string($level) : $WARN,
+            should_capture => 1,
         ),
     );
 }

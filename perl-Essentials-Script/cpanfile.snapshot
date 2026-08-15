@@ -1649,14 +1649,15 @@ DISTRIBUTIONS
       Throwable 1.001
       perl 5.026000
       strictures 2.000006
-  Essentials-Log-0.1.1
-    pathname: O/OY/OYOULE/Essentials-Log-0.1.1.tar.gz
+  Essentials-Log-0.1.2
+    pathname: O/OY/OYOULE/Essentials-Log-0.1.2.tar.gz
     provides:
-      Essentials::Log v0.1.1
-      Essentials::Log::Attribute v0.1.1
-      Essentials::Log::Formatter v0.1.1
-      Essentials::Log::Level v0.1.1
-      Essentials::Log::Writer v0.1.1
+      Essentials::Log v0.1.2
+      Essentials::Log::Attribute v0.1.2
+      Essentials::Log::Capture v0.1.2
+      Essentials::Log::Formatter v0.1.2
+      Essentials::Log::Level v0.1.2
+      Essentials::Log::Writer v0.1.2
     requirements:
       Const::Fast 0.014
       Essentials::Exception v0.1.0
