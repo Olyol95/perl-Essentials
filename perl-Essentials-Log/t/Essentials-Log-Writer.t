@@ -13,8 +13,8 @@ use_ok('Essentials::Log::Writer');
 
 subtest write => sub {
     subtest stderr => sub {
-        my $writer = Essentials::Log::Writer->new;
         my $line = capture_stderr {
+            my $writer = Essentials::Log::Writer->new;
             $writer->write('Example message');
         };
         is($line, "Example message\n", 'STDERR set by default');
@@ -24,34 +24,32 @@ subtest write => sub {
         my $dir = dirname($0);
 
         subtest die_on_missing_dir => sub {
-            my $writer = Essentials::Log::Writer->new(
-                filename => 'thisdoesnotexist/example.txt',
-            );
             throws_ok {
-                $writer->write('Example message');
+                Essentials::Log::Writer->new(
+                    filename => 'thisdoesnotexist/example.txt',
+                );
             } qr/Error opening/, 'Error thrown for nonexistent dir'
         };
-        
+
         subtest die_on_read_only => sub {
             my $file_name = "$dir/read_only.log";
             create_file(
                 $file_name, '', 1,
             );
-            my $writer = Essentials::Log::Writer->new(
-                filename => $file_name,
-            );
             throws_ok {
-                $writer->write('Test');
+                Essentials::Log::Writer->new(
+                    filename => $file_name,
+                );
             } qr/Error opening/, 'Error thrown for readonly file';
             unlink $file_name;
         };
 
         subtest create_file => sub {
             my $file_name = "$dir/create_file.log";
+            ok(!-e $file_name, 'File does not exist');
             my $writer = Essentials::Log::Writer->new(
                 filename => $file_name,
             );
-            ok(!-e $file_name, 'File does not exist');
             $writer->write('Example message');
             ok(-e $file_name, 'File created');
             is(
