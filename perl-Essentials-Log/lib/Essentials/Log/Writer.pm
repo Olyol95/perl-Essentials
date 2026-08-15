@@ -51,20 +51,29 @@ has filename => (
 
 =cut
 
-has _handle => (
-    is      => 'lazy',
-    default => sub {
-        my $self = shift;
+sub BUILD {
+    my ($self, $args) = @_;
 
-        if ($self->filename) {
-            open my $handle, '>>', $self->filename
-                or die 'Error opening ' . $self->filename . " for writing: $!";
-            return $handle;
-        }
+    my $handle;
+    if ($self->filename) {
+        ## no critic (RequireBriefOpen)
+        open $handle, '>>', $self->filename
+            or throw 'Error opening ' . $self->filename . " for writing: $!";
+    }
+    else {
+        ## no critic (RequireBriefOpen)
+        open $handle, '>&', \*STDERR
+            or throw "Error opening STDERR: $!";
+    }
 
-        return *STDERR;
-    },
-);
+    $self->{_handle} = $handle;
+}
+
+sub DEMOLISH {
+    my $self = shift;
+
+    close $self->{_handle} if $self->{_handle};
+}
 
 =head1 METHODS
 
@@ -81,7 +90,7 @@ C<$line> should have already been formatted by something like L<Essentials::Log:
 sub write {
     my ($self, $line) = @_;
 
-    my $handle = $self->_handle;
+    my $handle = $self->{_handle};
 
     say $handle $line
         or throw "Error writing to log: $@";
