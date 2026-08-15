@@ -75,6 +75,7 @@ subtest new_with_opts => sub {
 
     ok($script->log->$_isa('Essentials::Log'), 'logger instantiated correctly');
     is($script->log->level, $INFO, 'log level passed through correctly');
+    is($script->log->is_capturing, 1, 'log is capturing STDOUT and STDERR by default');
 
     ok($script->heartbeat->$_isa('Essentials::Script::Heartbeat::None'), 'heartbeat instantiated correctly');
 };
