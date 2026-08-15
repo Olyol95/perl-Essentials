@@ -8,6 +8,7 @@ use strictures 2;
 use Moo;
 use Safe::Isa;
 
+use Essentials::Log::Capture;
 use Essentials::Log::Formatter;
 use Essentials::Log::Level qw(:constants);
 use Essentials::Log::Writer;
@@ -48,6 +49,15 @@ use Essentials::Log::Writer;
       formatter => My::Log::Formatter->new(...),
       writer    => My::Log::Writer->new(...),
   );
+
+  # capture stdout and stderr
+  $log->start_capture;
+
+  print("Some message from a third-party module"); # logged via $log->info(...)
+  warn("Some warning from an unknown source");     # logged via $log->warn(...)
+
+  # stop capturing
+  $log->stop_capture;
 
 =head1 DESCRIPTION
 
@@ -139,6 +149,37 @@ has writer => (
     },
 );
 
+=item C<should_capture>
+
+Boolean. When true, any writes to C<STDOUT> and C<STDERR> are
+captured and redirected via the logger.
+
+Defaults to false.
+
+C<STDOUT> is sent via C<<$log->info(...)>>
+
+C<STDERR> is sent via C<<$log->warn(...)>>
+
+You can toggle this on and off later via C<start_capture>
+and C<stop_capture>.
+
+Capturing is automatically disabled once the log object
+goes out of scope.
+
+=cut
+
+sub BUILD {
+    my ($self, $args) = @_;
+
+    $self->start_capture if $args->{should_capture};
+}
+
+sub DEMOLISH {
+    my $self = shift;
+
+    $self->stop_capture;
+}
+
 =back
 
 =head1 METHODS
@@ -222,6 +263,69 @@ sub warn {
     my ($self, @args) = @_;
 
     $self->_write($WARN, @args);
+}
+
+=item C<start_capture>
+
+Starts capturing writes to C<STDOUT> and C<STDERR> and redirects them.
+
+C<STDOUT> is sent via C<<$log->info(...)>>
+
+C<STDERR> is sent via C<<$log->warn(...)>>
+
+Capturing is automatically disabled once the log object goes out of scope.
+
+=cut
+
+sub start_capture {
+    my $self = shift;
+
+    return if $self->is_capturing;
+
+    tie(
+        *STDOUT, 'Essentials::Log::Capture',
+        stream => 'stdout',
+        log    => $self,
+    );
+    tie (
+        *STDERR, 'Essentials::Log::Capture',
+        stream => 'stderr',
+        log    => $self,
+    );
+
+    $self->{_capturing} = 1;
+}
+
+=item C<stop_capture>
+
+Stops capturing writes to C<STDOUT> and C<STDERR>.
+
+=cut
+
+sub stop_capture {
+    my $self = shift;
+
+    return unless $self->is_capturing;
+
+    foreach my $handle (\*STDOUT, \*STDERR) {
+        next unless tied(*$handle);
+        tied(*$handle)->flush;
+        untie(*$handle);
+    }
+
+    $self->{_capturing} = 0;
+}
+
+=item C<is_capturing>
+
+Returns true if the logger is currently capturing C<STDOUT> and C<STDERR>.
+
+=cut
+
+sub is_capturing {
+    my $self = shift;
+
+    return $self->{_capturing} || 0;
 }
 
 =back

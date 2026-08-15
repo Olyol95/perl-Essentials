@@ -4,6 +4,7 @@ use v5.26;
 use strictures 2;
 
 use Safe::Isa;
+use Scalar::Util qw(refaddr);
 use Test::MockObject;
 use Test::More;
 
@@ -23,6 +24,7 @@ subtest defaults => sub {
         $log->writer->$_isa('Essentials::Log::Writer'),
         'writer populated by default'
     );
+    ok(!$log->is_capturing, 'is_capturing is false by default');
 };
 
 subtest level => sub {
@@ -363,6 +365,141 @@ subtest exception => sub {
             $test->{name}
         );
     }
+};
+
+subtest capture => sub {
+    subtest disabled_by_default => sub {
+        my $log = Essentials::Log->new(
+            formatter => mock_formatter(),
+            writer    => mock_writer(),
+        );
+        ok(!$log->is_capturing, 'is_capturing is false');
+        ok(!tied(*STDOUT), 'STDOUT is not tied');
+        ok(!tied(*STDERR), 'STDERR is not tied');
+    };
+
+    subtest starts_on_construction => sub {
+        my $log = Essentials::Log->new(
+            formatter      => mock_formatter(),
+            writer         => mock_writer(),
+            should_capture => 1,
+        );
+        ok($log->is_capturing, 'is_capturing is true');
+        ok(tied(*STDOUT), 'STDOUT is tied');
+        ok(tied(*STDERR), 'STDERR is tied');
+        $log->stop_capture;
+    };
+
+    subtest routes_streams => sub {
+        my $writer = mock_writer();
+        my $log = Essentials::Log->new(
+            formatter      => mock_formatter(),
+            writer         => $writer,
+            level          => $INFO,
+            should_capture => 1,
+        );
+        print "to stdout\n";
+        print STDERR "to stderr\n";
+        $log->stop_capture;
+        is_deeply(
+            $writer->calls,
+            [
+                {
+                    level   => $INFO,
+                    message => 'to stdout',
+                    data    => {},
+                },
+                {
+                    level   => $WARN,
+                    message => 'to stderr',
+                    data    => {},
+                },
+            ],
+            'stdout is logged at info and stderr at warn'
+        );
+    };
+
+    subtest stop_capture => sub {
+        subtest unties_and_flushes => sub {
+            my $writer = mock_writer();
+            my $log = Essentials::Log->new(
+                formatter      => mock_formatter(),
+                writer         => $writer,
+                level          => $INFO,
+                should_capture => 1,
+            );
+            print 'no trailing newline';
+            is_deeply(
+                $writer->calls,
+                [],
+                'buffered output is not logged while capturing'
+            );
+            $log->stop_capture;
+            ok(!$log->is_capturing, 'is_capturing is false after stop');
+            ok(!tied(*STDOUT), 'STDOUT is untied');
+            ok(!tied(*STDERR), 'STDERR is untied');
+            is_deeply(
+                $writer->calls,
+                [{
+                    level   => $INFO,
+                    message => 'no trailing newline',
+                    data    => {},
+                }],
+                'buffered output is flushed on stop'
+            );
+        };
+
+        subtest no_op_when_not_capturing => sub {
+            my $log = Essentials::Log->new(
+                formatter => mock_formatter(),
+                writer    => mock_writer(),
+            );
+            $log->stop_capture;
+            ok(!$log->is_capturing, 'is_capturing remains false');
+            ok(!tied(*STDOUT), 'STDOUT is left untied');
+        };
+    };
+
+    subtest start_capture_is_idempotent => sub {
+        my $log = Essentials::Log->new(
+            formatter      => mock_formatter(),
+            writer         => mock_writer(),
+            should_capture => 1,
+        );
+        my $before = refaddr(tied(*STDOUT));
+        $log->start_capture;
+        is(
+            refaddr(tied(*STDOUT)),
+            $before,
+            'the existing STDOUT tie is left in place'
+        );
+        ok($log->is_capturing, 'is_capturing is still true');
+        $log->stop_capture;
+    };
+
+    subtest stops_on_demolish => sub {
+        my $writer = mock_writer();
+        {
+            my $log = Essentials::Log->new(
+                formatter      => mock_formatter(),
+                writer         => $writer,
+                level          => $INFO,
+                should_capture => 1,
+            );
+            print 'buffered until demolish';
+        }
+        ok(!tied(*STDOUT), 'STDOUT is untied once the log is destroyed');
+        ok(!tied(*STDERR), 'STDERR is untied once the log is destroyed');
+        is_deeply(
+            $writer->calls,
+            [{
+                level   => $INFO,
+                message => 'buffered until demolish',
+                data    => {},
+            }],
+            'buffered output is flushed when the log is destroyed'
+        );
+    };
 };
 
 done_testing();
