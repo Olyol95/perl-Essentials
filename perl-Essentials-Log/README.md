@@ -4,7 +4,7 @@ Essentials::Log - A simple but flexible logging module
 
 # VERSION
 
-version 0.1.1
+version 0.1.2
 
 # SYNOPSIS
 
@@ -40,6 +40,15 @@ version 0.1.1
         formatter => My::Log::Formatter->new(...),
         writer    => My::Log::Writer->new(...),
     );
+
+    # capture stdout and stderr
+    $log->start_capture;
+
+    print("Some message from a third-party module"); # logged via $log->info(...)
+    warn("Some warning from an unknown source");     # logged via $log->warn(...)
+
+    # stop capturing
+    $log->stop_capture;
 
 # DESCRIPTION
 
@@ -95,6 +104,23 @@ various severity levels.
 
     Used to write the formatted string to the log destination.
 
+- `should_capture`
+
+    Boolean. When true, any writes to `STDOUT` and `STDERR` are
+    captured and redirected via the logger.
+
+    Defaults to false.
+
+    `STDOUT` is sent via `<$log-`info(...)>>
+
+    `STDERR` is sent via `<$log-`warn(...)>>
+
+    You can toggle this on and off later via `start_capture`
+    and `stop_capture`.
+
+    Capturing is automatically disabled once the log object
+    goes out of scope.
+
 # METHODS
 
 - `debug($message, $data)`
@@ -135,6 +161,24 @@ various severity levels.
 
     `$data` is an optional hashref containing key-value pairs
     to include in the log line.
+
+- `start_capture`
+
+    Starts capturing writes to `STDOUT` and `STDERR` and redirects them.
+
+    `STDOUT` is sent via `<$log-`info(...)>>
+
+    `STDERR` is sent via `<$log-`warn(...)>>
+
+    Capturing is automatically disabled once the log object goes out of scope.
+
+- `stop_capture`
+
+    Stops capturing writes to `STDOUT` and `STDERR`.
+
+- `is_capturing`
+
+    Returns true if the logger is currently capturing `STDOUT` and `STDERR`.
 
 # SEE ALSO
 
